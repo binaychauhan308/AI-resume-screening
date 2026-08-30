@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Home | ResumeMatch{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-copy">
+        <span class="eyebrow">Resume Screening Platform</span>
+        <h1>Screen resumes faster with a clean job-match workflow.</h1>
+        <p>
+            Upload candidate PDFs, compare them against job requirements, and review matched and missing
+            skills from one protected dashboard.
+        </p>
+        <div class="hero-actions">
+            {% if is_authenticated %}
+                <a href="{{ url_for('dashboard') }}" class="button-link">Open Dashboard</a>
+            {% else %}
+                <a href="{{ url_for('register') }}" class="button-link">Create Account</a>
+                <a href="{{ url_for('login') }}" class="button-link button-secondary">Login</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="hero-panel">
+        <div class="hero-stat">
+            <strong>Skill-first ranking</strong>
+            <span>See required skills, matched skills, missing skills, and job match percentage.</span>
+        </div>
+        <div class="hero-stat">
+            <strong>Protected access</strong>
+            <span>Only authenticated users can upload resumes and open PDF files.</span>
+        </div>
+        <div class="hero-stat">
+            <strong>Fast review flow</strong>
+            <span>Go from upload to shortlist decisions without leaving the browser.</span>
+        </div>
+    </div>
+</section>
+
+<section class="feature-grid">
+    <article class="feature-card">
+        <h3>Upload Once</h3>
+        <p>Process multiple PDF resumes in one step and keep them in your local screening database.</p>
+    </article>
+    <article class="feature-card">
+        <h3>Measure Fit</h3>
+        <p>Compare each resume to required job skills and show a direct match percentage.</p>
+    </article>
+    <article class="feature-card">
+        <h3>Open PDFs</h3>
+        <p>Review the original resume PDF in a new tab straight from the candidate table.</p>
+    </article>
+</section>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | ResumeMatch{% endblock %}
+
+{% block content %}
+<div class="section">
+    <h3>1.Upload Resumes</h3>
+    <form action="{{ url_for('upload_resumes') }}" method="POST" enctype="multipart/form-data">
+        <input type="file" name="resume_files" accept=".pdf" multiple required>
+        <button type="submit">+ Upload & Process All</button>
+    </form>
+</div>
+
+<div class="section">
+    <h3>2. Screen Database</h3>
+    <form method="POST" action="{{ url_for('dashboard') }}">
+        <label><strong>Select Engineering Role:</strong></label>
+        <select name="job_role">
+            <option value="custom" {% if role == 'custom' %}selected{% endif %}>-- Custom / Type my own --</option>
+            <option value="software_engineer" {% if role == 'software_engineer' %}selected{% endif %}>Software Engineer (General)</option>
+            <option value="frontend_engineer" {% if role == 'frontend_engineer' %}selected{% endif %}>Frontend Engineer</option>
+            <option value="backend_engineer" {% if role == 'backend_engineer' %}selected{% endif %}>Backend Engineer</option>
+            <option value="fullstack_engineer" {% if role == 'fullstack_engineer' %}selected{% endif %}>Full Stack Engineer</option>
+            <option value="devops_engineer" {% if role == 'devops_engineer' %}selected{% endif %}>DevOps Engineer</option>
+            <option value="cloud_engineer" {% if role == 'cloud_engineer' %}selected{% endif %}>Cloud Engineer</option>
+            <option value="data_engineer" {% if role == 'data_engineer' %}selected{% endif %}>Data Engineer</option>
+            <option value="data_scientist" {% if role == 'data_scientist' %}selected{% endif %}>Data Scientist</option>
+            <option value="ai_engineer" {% if role == 'ai_engineer' %}selected{% endif %}>AI/ML Engineer</option>
+            <option value="qa_engineer" {% if role == 'qa_engineer' %}selected{% endif %}>QA / Automation Engineer</option>
+        </select>
+
+        <label><strong>Mandatory Skills Checklist (Comma separated):</strong></label>
+        <input type="text" name="required_skills" placeholder="e.g. javascript, html, css, node.js, react" value="{{ req_skills }}">
+
+        <label><strong>Or Paste Custom Job Description:</strong></label>
+        <textarea name="job_description" placeholder="Leave blank if using a dropdown role above...">{{ jd }}</textarea>
+
+        <button type="submit">Run Screening</button>
+    </form>
+</div>
+
+{% if candidates %}
+<div class="section table-container">
+    <h3>Ranking Results</h3>
+    {% if required_skill_labels %}
+    <div class="job-requirements">
+        <strong>Job Required Skills:</strong> {{ required_skill_labels | join(', ') }}
+    </div>
+    {% endif %}
+    <table>
+        <tr>
+            <th>Candidate Name</th>
+            <th>Job Match</th>
+            <th>Has Skills</th>
+            <th>Missing Skills</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        {% for candidate in candidates %}
+        <tr>
+            <td><strong>{{ candidate.candidate_name }}</strong></td>
+            <td class="job-match">{{ candidate.job_match_label }}</td>
+            <td class="skill-list skill-list-present">{{ candidate.matched_skills }}</td>
+            <td class="skill-list skill-list-missing">{{ candidate.missing_skills }}</td>
+            <td>
+                {% if candidate.status == 'Shortlisted' %}
+                    <span class="status-shortlisted">Pass</span>
+                {% else %}
+                    <span class="status-rejected">Fail</span>
+                {% endif %}
+            </td>
+            <td>
+                <a href="{{ url_for('view_candidate', candidate_id=candidate.id) }}" class="view-btn" target="_blank" rel="noopener noreferrer">View PDF</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% else %}
+<div class="section empty-state">
+    <h3>No Results Yet</h3>
+    <p>Upload resumes and run screening to see candidate match results here.</p>
+</div>
+{% endif %}
+{% endblock %}

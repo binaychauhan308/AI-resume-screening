@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ResumeMatch{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="page-shell">
+        <header class="topbar">
+            <div class="topbar-inner">
+                <a href="{{ url_for('home') }}" class="brand">ResumeMatch</a>
+                <nav class="nav-links">
+                    {% if is_authenticated %}
+                        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                        <span class="nav-user">{{ current_user_name }}</span>
+                        <a href="{{ url_for('logout') }}" class="button-link button-secondary button-small">Logout</a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}">Login</a>
+                        <a href="{{ url_for('register') }}" class="button-link button-small">Create Account</a>
+                    {% endif %}
+                </nav>
+            </div>
+        </header>
+
+        <main class="container">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</body>
+</html>

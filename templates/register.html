@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Create Account | ResumeMatch{% endblock %}
+
+{% block content %}
+<section class="auth-shell">
+    <div class="auth-card">
+        <span class="eyebrow">Simple Signup</span>
+        <h2>Create your account</h2>
+        <p class="auth-copy">Choose a username and password to get into the resume screening dashboard.</p>
+
+        <form method="POST" action="{{ url_for('register') }}">
+            <input type="hidden" name="next" value="{{ next_path }}">
+
+            <label><strong>Username</strong></label>
+            <input type="text" name="username" placeholder="Choose a username" required>
+
+            <label><strong>Password</strong></label>
+            <input type="password" name="password" placeholder="At least 6 characters" required>
+
+            <label><strong>Confirm Password</strong></label>
+            <input type="password" name="confirm_password" placeholder="Re-enter your password" required>
+
+            <button type="submit" class="full-width">Create Account</button>
+        </form>
+
+        <p class="auth-footer">Already have an account? <a href="{{ url_for('login', next=next_path) }}">Login</a></p>
+        <p class="auth-footer">Reserved admin login: <strong>admin</strong> / <strong>admin123</strong></p>
+    </div>
+</section>
+{% endblock %}

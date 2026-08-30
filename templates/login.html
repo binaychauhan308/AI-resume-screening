@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Login | ResumeMatch{% endblock %}
+
+{% block content %}
+<section class="auth-shell">
+    <div class="auth-card">
+        <span class="eyebrow">Simple Login</span>
+        <h2>Login to continue</h2>
+        <p class="auth-copy">Login with the shared admin account or a username you created locally.</p>
+
+        <form method="POST" action="{{ url_for('login') }}">
+            <input type="hidden" name="next" value="{{ next_path }}">
+
+            <label><strong>Username</strong></label>
+            <input type="text" name="username" placeholder="Enter username" required>
+
+            <label><strong>Password</strong></label>
+            <input type="password" name="password" placeholder="Enter your password" required>
+
+            <button type="submit" class="full-width">Login</button>
+        </form>
+
+        <p class="auth-footer">Default admin login: <strong>admin</strong> / <strong>admin123</strong></p>
+        <p class="auth-footer">Need an account? <a href="{{ url_for('register', next=next_path) }}">Create one</a></p>
+    </div>
+</section>
+{% endblock %}

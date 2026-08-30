@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ candidate.candidate_name }} - Resume</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <a href="{{ url_for('dashboard') }}" class="back-link">Back to Screening</a>
+    <div class="section">
+        <h2>{{ candidate.candidate_name }}</h2>
+        <p><strong>File:</strong> {{ candidate.filename }}</p>
+    </div>
+
+    <div class="section">
+        <h3>Resume Text</h3>
+        <div class="resume-text-box">{{ candidate.resume_text or 'No resume text available.' }}</div>
+    </div>
+</div>
+
+</body>
+</html>
